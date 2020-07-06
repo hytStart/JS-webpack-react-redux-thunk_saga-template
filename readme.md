@@ -24,8 +24,10 @@ extractLess
 
 （https://reacttraining.com/react-router/web/guides/quick-start / https://www.npmjs.com/package/react-loadable）
 
-#### 5. lint   eslint生成，加以改造
-  https://segmentfault.com/a/1190000009546913
+#### 5. lint eslint 生成，加以改造 ,缺少最佳实践 // todo
+
+https://segmentfault.com/a/1190000009546913
+
 #### 6. axios // todo
 
 #### 7. devserver proxy ✅
