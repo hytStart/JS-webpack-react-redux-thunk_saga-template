@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "NODE_ENV=dev webpack-dev-server --config webpackconfig/webpack.dev.js",
+    "local": "NODE_ENV=local webpack-dev-server --config webpackconfig/webpack.dev.js",
     "watch": "NODE_ENV=dev webpack --config webpackconfig/webpack.dev.js --watch",
     "prod": "NODE_ENV=production webpack --config webpackconfig/webpack.prod.js"
   },
@@ -29,6 +30,7 @@
     "@reduxjs/toolkit": "^1.4.0",
     "antd": "^4.3.5",
     "autoprefixer": "^9.8.4",
+    "axios": "^0.19.2",
     "babel-loader": "^8.1.0",
     "babel-plugin-import": "^1.13.0",
     "babel-polyfill": "^6.26.0",

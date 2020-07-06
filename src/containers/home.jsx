@@ -1,11 +1,10 @@
 import React from "react";
 import { Switch, Route, Link, Redirect } from "react-router-dom";
 
-
-import CreatLodable from '../components/common/creatLodable'
+import CreatLodable from "../components/common/creatLodable";
 import About from "./About";
 
-const User = CreatLodable(() => import('./User'))
+const User = CreatLodable(() => import("./User"));
 
 const Home = () => {
   return (

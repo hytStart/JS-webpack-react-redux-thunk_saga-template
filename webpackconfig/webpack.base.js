@@ -5,7 +5,7 @@ const MiniCSSExtractPlugin = require("mini-css-extract-plugin");
 
 console.log(process.env.NODE_ENV);
 
-const isDev = process.env.NODE_ENV === "dev";
+const isDev = process.env.NODE_ENV !== "production";
 
 module.exports = {
   entry: {
@@ -202,7 +202,13 @@ module.exports = {
       // 模块别名列表
       module: "new-module",
       // 起别名："module" -> "new-module" 和 "module/path/file" -> "new-module/path/file"
-      module: path.resolve(__dirname, "../src/components"),
+      $: path.resolve(__dirname, "../src"),
+      $Components: path.resolve(__dirname, "../src/components"),
+      $Containers: path.resolve(__dirname, "../src/containers"),
+      $Constants: path.resolve(__dirname, "../src/constatns"),
+      $Actions: path.resolve(__dirname, "../src/actions"),
+      $Assets: path.resolve(__dirname, "../src/assets"),
+      $Utils: path.resolve(__dirname, "../src/utils"),
       // 起别名 "module" -> "./app/third/module.js" 和 "module/file" 会导致错误
       // 模块别名相对于当前上下文导入
     },
