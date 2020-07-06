@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { Input } from "antd";
-import { Get } from "$Utils/request.js";
+import React, { useState, useEffect } from 'react';
+import { Input } from 'antd';
+import { Get } from '../utils/request';
 
 const User = () => {
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
   useEffect(() => {
-    Get("/api/user/gettestdata", {}).then(function (response) {
+    Get('/api/user/gettestdata', {}).then((response) => {
       console.log(response);
     });
   }, []);
