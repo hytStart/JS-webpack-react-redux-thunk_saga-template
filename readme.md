@@ -36,6 +36,6 @@ https://segmentfault.com/a/1190000009546913
 
 #### 步骤 :
 
-1. webpack 搭建 -> react (https://juejin.im/post/5e0aaa485188254962077c75#heading-19) -> antd -> react-router(https://reacttraining.com/react-router/web/guides/quick-start) -> react-redux （https://juejin.im/post/5dc82bfee51d4523815886c9） -> thunk/saga(babel-polyfill)/ (https://www.valentinog.com/blog/redux/) -> createReducer, createAction 替换,createSelector(创建一个有记忆的 selectror)，路由切割 -> 优化(postcss-loader， url-loader, hmr) -> axios, devserver proxy,
+1. webpack 搭建 -> react (https://juejin.im/post/5e0aaa485188254962077c75#heading-19) -> antd -> react-router(https://reacttraining.com/react-router/web/guides/quick-start) -> react-redux （https://juejin.im/post/5dc82bfee51d4523815886c9） -> thunk/saga(babel-polyfill)/ (https://www.valentinog.com/blog/redux/) -> createReducer, createAction 替换,createSelector(创建一个有记忆的 selectror)，路由切割 -> 优化(postcss-loader， url-loader, hmr) -> axios, devserver proxy, -> lint & prettier -> 自定义 webpack loader, plugin 的开发。
 
 -> ssr

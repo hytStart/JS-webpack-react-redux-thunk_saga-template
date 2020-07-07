@@ -1,19 +1,21 @@
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const MiniCSSExtractPlugin = require("mini-css-extract-plugin");
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const MiniCSSExtractPlugin = require('mini-css-extract-plugin')
+const { HelloWorldPlugin } = require('./pluginExtension')
 
-console.log(process.env.NODE_ENV);
+console.log(path.resolve(__dirname))
 
-const isDev = process.env.NODE_ENV !== "production";
+const isDev = process.env.NODE_ENV !== 'production'
 
 module.exports = {
   entry: {
-    app: "./src/index.js",
+    app: './src/index.js',
+    txt: './src/assets/neirong.txt',
   },
   output: {
-    filename: "[name].bundle.js",
-    path: path.resolve(__dirname, "../dist"),
+    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, '../dist'),
     // publicPath: "/assets/",
   },
   module: {
@@ -21,7 +23,7 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        use: [{ loader: "babel-loader" }],
+        use: [{ loader: 'babel-loader' }],
       },
       {
         test: /\.css$/,
@@ -29,7 +31,7 @@ module.exports = {
         use: [
           isDev
             ? {
-                loader: "style-loader",
+                loader: 'style-loader',
               }
             : {
                 loader: MiniCSSExtractPlugin.loader,
@@ -41,15 +43,15 @@ module.exports = {
                 },
               },
           {
-            loader: "css-loader",
+            loader: 'css-loader',
             options: {
               modules: {
-                localIdentName: "[name]__[local]--[hash:base64:5]", // css-loader >= 3.x，localIdentName放在modules里  https://github.com/rails/webpacker/issues/2197
+                localIdentName: '[name]__[local]--[hash:base64:5]', // css-loader >= 3.x，localIdentName放在modules里  https://github.com/rails/webpacker/issues/2197
               },
             },
           },
           {
-            loader: "postcss-loader",
+            loader: 'postcss-loader',
           },
           // {
           //   loader: "less-loader",
@@ -62,7 +64,7 @@ module.exports = {
         use: [
           isDev
             ? {
-                loader: "style-loader",
+                loader: 'style-loader',
               }
             : {
                 loader: MiniCSSExtractPlugin.loader,
@@ -74,7 +76,7 @@ module.exports = {
                 },
               },
           {
-            loader: "css-loader",
+            loader: 'css-loader',
           },
           // {
           //   loader: "less-loader",
@@ -87,7 +89,7 @@ module.exports = {
         use: [
           isDev
             ? {
-                loader: "style-loader", // creates style nodes from JS strings
+                loader: 'style-loader', // creates style nodes from JS strings
               }
             : {
                 loader: MiniCSSExtractPlugin.loader,
@@ -99,18 +101,18 @@ module.exports = {
                 },
               },
           {
-            loader: "css-loader", // translates CSS into CommonJS
+            loader: 'css-loader', // translates CSS into CommonJS
             options: {
               modules: {
-                localIdentName: "[name]__[local]--[hash:base64:5]", // css-loader >= 3.x，localIdentName放在modules里  https://github.com/rails/webpacker/issues/2197
+                localIdentName: '[name]__[local]--[hash:base64:5]', // css-loader >= 3.x，localIdentName放在modules里  https://github.com/rails/webpacker/issues/2197
               },
             },
           },
           {
-            loader: "postcss-loader",
+            loader: 'postcss-loader',
           },
           {
-            loader: "less-loader", // compiles Less to CSS
+            loader: 'less-loader', // compiles Less to CSS
           },
         ],
       },
@@ -120,7 +122,7 @@ module.exports = {
         use: [
           isDev
             ? {
-                loader: "style-loader", // creates style nodes from JS strings
+                loader: 'style-loader', // creates style nodes from JS strings
               }
             : {
                 loader: MiniCSSExtractPlugin.loader,
@@ -132,10 +134,10 @@ module.exports = {
                 },
               },
           {
-            loader: "css-loader", // translates CSS into CommonJS
+            loader: 'css-loader', // translates CSS into CommonJS
           },
           {
-            loader: "less-loader", // compiles Less to CSS
+            loader: 'less-loader', // compiles Less to CSS
             options: { lessOptions: { javascriptEnabled: true } }, // less@3.x，需要开启 配置项 javascriptEnabled: true, less-loader高版本需要lessOptions。https://github.com/ant-design/ant-design/issues/7927  https://github.com/ant-design/ant-design/issues/23624
           },
         ],
@@ -144,7 +146,7 @@ module.exports = {
         test: /\.(mp4|ogg)$/,
         use: [
           {
-            loader: "file-loader",
+            loader: 'file-loader',
           },
         ],
       },
@@ -152,9 +154,21 @@ module.exports = {
         test: /\.(png|jpg|jpeg|gif|eot|svg|ttf|woff|woff2)$/,
         use: [
           {
-            loader: "url-loader",
+            loader: 'url-loader',
             options: {
               limit: 8192,
+            },
+          },
+        ],
+      },
+      {
+        test: /\.txt$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: path.resolve(__dirname, './loaderExtension.js'),
+            options: {
+              name: 'Hyt',
             },
           },
         ],
@@ -164,25 +178,28 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: "Output Management",
-      template: "./src/index.html",
+      title: 'Output Management',
+      template: './src/index.html',
     }),
     new MiniCSSExtractPlugin({
-      filename: "[name].[contenthash].css",
+      filename: '[name].[contenthash].css',
+    }),
+    new HelloWorldPlugin({
+      name: 'hyt',
     }),
   ],
   optimization: {
     runtimeChunk: {
-      name: "manifest",
+      name: 'manifest',
     },
     splitChunks: {
-      chunks: "async",
+      chunks: 'async',
       minSize: 30000,
       maxSize: 0,
       minChunks: 1,
       maxAsyncRequests: 6,
       maxInitialRequests: 4,
-      automaticNameDelimiter: "~",
+      automaticNameDelimiter: '~',
       cacheGroups: {
         defaultVendors: {
           test: /[\\/]node_modules[\\/]/,
@@ -197,20 +214,20 @@ module.exports = {
     },
   },
   resolve: {
-    extensions: [".js", ".json", ".jsx", ".css"],
+    extensions: ['.js', '.json', '.jsx', '.css'],
     alias: {
       // 模块别名列表
-      module: "new-module",
+      module: 'new-module',
       // 起别名："module" -> "new-module" 和 "module/path/file" -> "new-module/path/file"
-      $: path.resolve(__dirname, "../src"),
-      $Components: path.resolve(__dirname, "../src/components"),
-      $Containers: path.resolve(__dirname, "../src/containers"),
-      $Constants: path.resolve(__dirname, "../src/constatns"),
-      $Actions: path.resolve(__dirname, "../src/actions"),
-      $Assets: path.resolve(__dirname, "../src/assets"),
-      $Utils: path.resolve(__dirname, "../src/utils"),
+      $: path.resolve(__dirname, '../src'),
+      $Components: path.resolve(__dirname, '../src/components'),
+      $Containers: path.resolve(__dirname, '../src/containers'),
+      $Constants: path.resolve(__dirname, '../src/constatns'),
+      $Actions: path.resolve(__dirname, '../src/actions'),
+      $Assets: path.resolve(__dirname, '../src/assets'),
+      $Utils: path.resolve(__dirname, '../src/utils'),
       // 起别名 "module" -> "./app/third/module.js" 和 "module/file" 会导致错误
       // 模块别名相对于当前上下文导入
     },
   },
-};
+}
