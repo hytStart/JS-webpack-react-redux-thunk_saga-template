@@ -35,33 +35,42 @@
 //   });
 // }
 
-import "babel-polyfill";
-import React from "react";
-import ReactDOM from "react-dom";
-import { BrowserRouter } from "react-router-dom";
-import { Provider } from "react-redux";
+import 'babel-polyfill'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { BrowserRouter } from 'react-router-dom'
+import { Provider } from 'react-redux'
 // import "antd/dist/antd.less"; // (babel-plugin-import)
-import store from "./store";
-import Home from "./containers/home";
+import store from './store'
+import Home from './containers/home'
 // import "./index.less";
-import style from "./style";
-import styleless from "./index.less";
+import style from './style'
+import styleless from './index.less'
 
 class APP extends React.Component {
   render() {
     return (
       <Provider store={store}>
         <BrowserRouter>
-          <Home />
-          <h1 className={styleless.hello}>Hello React</h1>
+          <div class={styleless.HolyGrail}>
+            <header>headerheader</header>
+            <div class={styleless['HolyGrail-body']}>
+              <main class={styleless['HolyGrail-content']}>
+                <Home />
+                <div class={styleless['test']}>嗨呀</div>
+              </main>
+              <nav class={styleless['HolyGrail-nav']}>...nav</nav>
+            </div>
+            <footer>..footer.</footer>
+          </div>
         </BrowserRouter>
       </Provider>
-    );
+    )
   }
 }
 
 if (module.hot) {
-  module.hot.accept();
+  module.hot.accept()
 }
 
-ReactDOM.render(<APP />, document.getElementById("root"));
+ReactDOM.render(<APP />, document.getElementById('root'))

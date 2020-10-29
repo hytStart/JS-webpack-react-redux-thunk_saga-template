@@ -1,7 +1,10 @@
 const path = require('path')
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin')
+const ManifestPlugin = require('webpack-manifest-plugin')
+const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
 const { HelloWorldPlugin } = require('./pluginExtension')
 
 console.log(path.resolve(__dirname))
@@ -31,17 +34,17 @@ module.exports = {
         use: [
           isDev
             ? {
-                loader: 'style-loader',
-              }
+              loader: 'style-loader',
+            }
             : {
-                loader: MiniCSSExtractPlugin.loader,
-                options: {
-                  // 只在开发模式中启用热更新
-                  hmr: isDev,
-                  // 如果模块热更新不起作用，重新加载全部样式
-                  reloadAll: true,
-                },
+              loader: MiniCSSExtractPlugin.loader,
+              options: {
+                // 只在开发模式中启用热更新
+                hmr: isDev,
+                // 如果模块热更新不起作用，重新加载全部样式
+                reloadAll: true,
               },
+            },
           {
             loader: 'css-loader',
             options: {
@@ -64,17 +67,17 @@ module.exports = {
         use: [
           isDev
             ? {
-                loader: 'style-loader',
-              }
+              loader: 'style-loader',
+            }
             : {
-                loader: MiniCSSExtractPlugin.loader,
-                options: {
-                  // 只在开发模式中启用热更新
-                  hmr: isDev,
-                  // 如果模块热更新不起作用，重新加载全部样式
-                  reloadAll: true,
-                },
+              loader: MiniCSSExtractPlugin.loader,
+              options: {
+                // 只在开发模式中启用热更新
+                hmr: isDev,
+                // 如果模块热更新不起作用，重新加载全部样式
+                reloadAll: true,
               },
+            },
           {
             loader: 'css-loader',
           },
@@ -89,17 +92,17 @@ module.exports = {
         use: [
           isDev
             ? {
-                loader: 'style-loader', // creates style nodes from JS strings
-              }
+              loader: 'style-loader', // creates style nodes from JS strings
+            }
             : {
-                loader: MiniCSSExtractPlugin.loader,
-                options: {
-                  // 只在开发模式中启用热更新
-                  hmr: isDev,
-                  // 如果模块热更新不起作用，重新加载全部样式
-                  reloadAll: true,
-                },
+              loader: MiniCSSExtractPlugin.loader,
+              options: {
+                // 只在开发模式中启用热更新
+                hmr: isDev,
+                // 如果模块热更新不起作用，重新加载全部样式
+                reloadAll: true,
               },
+            },
           {
             loader: 'css-loader', // translates CSS into CommonJS
             options: {
@@ -122,17 +125,17 @@ module.exports = {
         use: [
           isDev
             ? {
-                loader: 'style-loader', // creates style nodes from JS strings
-              }
+              loader: 'style-loader', // creates style nodes from JS strings
+            }
             : {
-                loader: MiniCSSExtractPlugin.loader,
-                options: {
-                  // 只在开发模式中启用热更新
-                  hmr: isDev,
-                  // 如果模块热更新不起作用，重新加载全部样式
-                  reloadAll: true,
-                },
+              loader: MiniCSSExtractPlugin.loader,
+              options: {
+                // 只在开发模式中启用热更新
+                hmr: isDev,
+                // 如果模块热更新不起作用，重新加载全部样式
+                reloadAll: true,
               },
+            },
           {
             loader: 'css-loader', // translates CSS into CommonJS
           },
@@ -176,17 +179,33 @@ module.exports = {
     ],
   },
   plugins: [
-    new CleanWebpackPlugin(),
+    new CleanWebpackPlugin({
+      dry: true,
+      cleanOnceBeforeBuildPatterns: ['**/dll.vendor.js', '**/vendor-manifest.json'],
+    }),
     new HtmlWebpackPlugin({
       title: 'Output Management',
       template: './src/index.html',
     }),
+    new AddAssetHtmlPlugin([
+      {
+        filepath: path.join(__dirname, '/../dist/assets/dll.vendor.js'),
+        hash: true,
+        includeSourcemap: false,
+      },
+    ]),
+    new webpack.DllReferencePlugin({
+      context: path.join(__dirname, '/../dist/'),
+      manifest: require('../dist/assets/vendor-manifest.json'),
+    }),
     new MiniCSSExtractPlugin({
-      filename: '[name].[contenthash].css',
+      // filename: '[name].[contenthash].css', // 由于使用了contenthash，不能热更新。wtf
+      filename: isDev ? '[name].css' : '[name].[contenthash].css',
     }),
     new HelloWorldPlugin({
       name: 'hyt',
     }),
+    new ManifestPlugin(),
   ],
   optimization: {
     runtimeChunk: {

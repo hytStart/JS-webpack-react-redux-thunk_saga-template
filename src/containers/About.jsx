@@ -1,30 +1,39 @@
-import React, { useEffect } from "react";
-import { connect } from "react-redux";
-import { createSelector } from "reselect";
-import { setName, getData, testSaga } from "../actions/about";
+import React, { useEffect, Suspense } from 'react'
+import { connect } from 'react-redux'
+import { createSelector } from 'reselect'
+import { setName, getData, testSaga } from '../actions/about'
+import style from './style.less'
+const DiyButton = React.lazy(() => import('../components/common/testButton'))
 
 const About = (props) => {
-  const { name } = props.data;
+  const { name } = props.data
   useEffect(() => {
-    console.log("props", props);
+    console.log('props', props)
     setTimeout(async () => {
-      props.setName("woshinibaba");
-      props.testSaga();
+      props.setName('woshinibaba')
+      props.testSaga()
       // await props.getData({});
-      console.log("await end");
-    }, 3000);
-  }, []);
-  return <div>About {name}</div>;
-};
+      console.log('await end')
+    }, 3000)
+  }, [])
+  return (
+    <div className={style['helo']}>
+      About {name}
+      <Suspense fallback={<div>Loading...</div>}>
+        <DiyButton />
+      </Suspense>
+    </div>
+  )
+}
 
 const mapStateToProps = createSelector(
   (state) => {
     return {
       data: state.about,
-    };
+    }
   },
-  (data) => data
-);
+  (data) => data,
+)
 
 // function mapDispatchToProps(dispatch) {
 //   return {
@@ -37,6 +46,6 @@ const mapDispatchToProps = {
   setName,
   getData,
   testSaga,
-};
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(About);
+export default connect(mapStateToProps, mapDispatchToProps)(About)
